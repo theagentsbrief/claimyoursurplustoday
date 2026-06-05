@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; connect-src *;">
 <title>Claim Your Surplus Today</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
@@ -141,6 +142,7 @@
       <div class="step-hint">We'll contact you as soon as we've reviewed your information.</div>
       <input type="text" id="q4-name" placeholder="Your full name" maxlength="100">
       <input type="tel" id="q4-phone" placeholder="Your phone number" maxlength="20">
+      <input type="text" id="q4-email" placeholder="Your email address (optional)" maxlength="150">
       <div class="error-msg" id="e4">Please enter your name and phone number.</div>
       <div class="nav">
         <button class="btn-back" onclick="prevStep()">← Back</button>
@@ -249,6 +251,7 @@
     document.getElementById('e4').style.display='none';
 
     var address=document.getElementById('q3-address').value.trim();
+    var email=document.getElementById('q4-email').value.trim()||'not provided';
     var q1=answers.q1==='yes'?'Yes — personal foreclosure':'No personal foreclosure';
     var q2=answers.q1==='yes'?'N/A (qualified via personal foreclosure)':(answers.q2==='yes'?'Yes — deceased loved one':'No');
 
@@ -258,6 +261,7 @@
     fd.append('subject','HOT LEAD');
     fd.append('name',name);
     fd.append('phone',phone);
+    fd.append('email',email);
     fd.append('message','PERSONAL FORECLOSURE: '+q1+'\nDECEASED LOVED ONE: '+q2+'\nPROPERTY ADDRESS: '+address+'\nSOURCE: claimyoursurplustoday.com');
 
     fetch(SF_URL,{method:'POST',body:fd}).then(function(){
