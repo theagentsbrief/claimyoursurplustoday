@@ -252,22 +252,15 @@
     var q1=answers.q1==='yes'?'Yes — personal foreclosure':'No personal foreclosure';
     var q2=answers.q1==='yes'?'N/A (qualified via personal foreclosure)':(answers.q2==='yes'?'Yes — deceased loved one':'No');
 
-    fetch(SF_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        apiKey: SF_KEY,
-        honeypot: '',
-        subject: 'HOT LEAD',
-        name: name,
-        phone: phone,
-        message:
-          'PERSONAL FORECLOSURE: '+q1+'\n'+
-          'DECEASED LOVED ONE: '+q2+'\n'+
-          'PROPERTY ADDRESS: '+address+'\n'+
-          'SOURCE: claimyoursurplustoday.com'
-      })
-    }).then(function(){
+    var fd=new FormData();
+    fd.append('apiKey',SF_KEY);
+    fd.append('honeypot','');
+    fd.append('subject','HOT LEAD');
+    fd.append('name',name);
+    fd.append('phone',phone);
+    fd.append('message','PERSONAL FORECLOSURE: '+q1+'\nDECEASED LOVED ONE: '+q2+'\nPROPERTY ADDRESS: '+address+'\nSOURCE: claimyoursurplustoday.com');
+
+    fetch(SF_URL,{method:'POST',body:fd}).then(function(){
       document.querySelectorAll('.step').forEach(function(s){s.style.display='none';});
       document.getElementById('progress-container').style.display='none';
       document.getElementById('success').style.display='block';
@@ -290,19 +283,16 @@
     if(!name||!email||!msg){document.getElementById('modal-error').style.display='block';return;}
     document.getElementById('modal-error').style.display='none';
 
-    fetch(SF_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        apiKey: SF_KEY,
-        honeypot: '',
-        subject: 'SURPLUS CLAIMS HELP INQUIRY',
-        name: name,
-        email: email,
-        message: msg,
-        source: 'claimyoursurplustoday.com — support form'
-      })
-    }).then(function(){
+    var fd2=new FormData();
+    fd2.append('apiKey',SF_KEY);
+    fd2.append('honeypot','');
+    fd2.append('subject','SURPLUS CLAIMS HELP INQUIRY');
+    fd2.append('name',name);
+    fd2.append('email',email);
+    fd2.append('message',msg);
+    fd2.append('source','claimyoursurplustoday.com — support form');
+
+    fetch(SF_URL,{method:'POST',body:fd2}).then(function(){
       document.getElementById('modal-form').style.display='none';
       document.getElementById('modal-success').style.display='block';
     }).catch(function(){
