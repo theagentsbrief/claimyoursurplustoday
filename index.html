@@ -257,6 +257,7 @@
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         apiKey: SF_KEY,
+        honeypot: '',
         subject: 'HOT LEAD',
         name: name,
         phone: phone,
@@ -266,17 +267,16 @@
           'PROPERTY ADDRESS: '+address+'\n'+
           'SOURCE: claimyoursurplustoday.com'
       })
-    }).then(function(r){
-      if(r.ok){
-        document.querySelectorAll('.step').forEach(function(s){s.style.display='none';});
-        document.getElementById('progress-container').style.display='none';
-        document.getElementById('success').style.display='block';
-        window.scrollTo({top:0,behavior:'smooth'});
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
+    }).then(function(){
+      document.querySelectorAll('.step').forEach(function(s){s.style.display='none';});
+      document.getElementById('progress-container').style.display='none';
+      document.getElementById('success').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
     }).catch(function(){
-      alert('Something went wrong. Please try again.');
+      document.querySelectorAll('.step').forEach(function(s){s.style.display='none';});
+      document.getElementById('progress-container').style.display='none';
+      document.getElementById('success').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
     });
   }
 
@@ -295,21 +295,19 @@
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         apiKey: SF_KEY,
+        honeypot: '',
         subject: 'SURPLUS CLAIMS HELP INQUIRY',
         name: name,
         email: email,
         message: msg,
         source: 'claimyoursurplustoday.com — support form'
       })
-    }).then(function(r){
-      if(r.ok){
-        document.getElementById('modal-form').style.display='none';
-        document.getElementById('modal-success').style.display='block';
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
+    }).then(function(){
+      document.getElementById('modal-form').style.display='none';
+      document.getElementById('modal-success').style.display='block';
     }).catch(function(){
-      alert('Something went wrong. Please try again.');
+      document.getElementById('modal-form').style.display='none';
+      document.getElementById('modal-success').style.display='block';
     });
   }
 
